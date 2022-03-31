@@ -138,10 +138,32 @@ public class VaccineCenterManagerInMemImpl implements VaccineCenterManager {
 
     @Override
     public SearchResponse search(List<SearchRequest> searchRequestList) {
-        return null;
+        int totalCount = 0;
+        SearchResponse searchResponse = new SearchResponse(0, Collections.emptyList());
+        SearchResponse tempSearchResponse = new SearchResponse(0, Collections.emptyList());
+
+        for(SearchRequest searchRequest:searchRequestList){
+             tempSearchResponse = search(searchRequest.getVaccineType(),searchRequest.getDoseType());
+        }
+        totalCount = searchResponse.getTotalCount() + tempSearchResponse.getTotalCount();
+        List<VaccineCenter> vaccineCenters = new ArrayList<>();
+        vaccineCenters.addAll(searchResponse.getResults());
+        vaccineCenters.addAll(tempSearchResponse.getResults());
+        searchResponse.setTotalCount(totalCount);
+        searchResponse.setResults(vaccineCenters);
+        return searchResponse;
     }
 
     public VaccineCenter get(final String vaccineCenterId) {
         return vaccineCenterMap.get(vaccineCenterId);
+    }
+
+    public HashSet availableVaccineTypeAndDoseTypeAtCentre(List<VaccineAvailability> vaccineAvailabilityList){
+        HashSet<String> availableVaccineTypeAndDoseType = new HashSet<>();
+        for(VaccineAvailability vaccineAvailability:vaccineAvailabilityList){
+            availableVaccineTypeAndDoseType.add(vaccineAvailability.getVaccineType()+"-"+vaccineAvailability.getDoseType());
+        }
+        return availableVaccineTypeAndDoseType;
+
     }
 }

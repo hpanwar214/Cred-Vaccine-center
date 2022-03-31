@@ -48,6 +48,54 @@ public class VaccineCenter {
 
     //TODO: Add Getter and Setters
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Set<VaccineType> getVaccineTypes() {
+        return vaccineTypes;
+    }
+
+    public void setVaccineTypes(Set<VaccineType> vaccineTypes) {
+        this.vaccineTypes = vaccineTypes;
+    }
+
+    public Set<DoseType> getDoseTypes() {
+        return doseTypes;
+    }
+
+    public void setDoseTypes(Set<DoseType> doseTypes) {
+        this.doseTypes = doseTypes;
+    }
+
+    public Set<CostType> getCostTypes() {
+        return costTypes;
+    }
+
+    public void setCostTypes(Set<CostType> costTypes) {
+        this.costTypes = costTypes;
+    }
+
+    public void setVaccineAvailabilities(List<VaccineAvailability> vaccineAvailabilities) {
+        this.vaccineAvailabilities = vaccineAvailabilities;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object instanceof VaccineCenter) {

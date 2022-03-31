@@ -41,5 +41,36 @@ public class VaccineAvailability {
         return false;
     }
 
-    //TODO: Add Getter and Setters
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public VaccineType getVaccineType() {
+        return vaccineType;
+    }
+
+    public void setVaccineType(VaccineType vaccineType) {
+        this.vaccineType = vaccineType;
+    }
+
+    public DoseType getDoseType() {
+        return doseType;
+    }
+
+    public void setDoseType(DoseType doseType) {
+        this.doseType = doseType;
+    }
+
+    public void setAvailableQuantityCount(Integer availableQuantityCount) {
+        this.availableQuantityCount = availableQuantityCount;
+    }
+
+    public Integer getBookedQuantityCount() {
+        return bookedQuantityCount;
+    }
+
+    public void setBookedQuantityCount(Integer bookedQuantityCount) {
+        this.bookedQuantityCount = bookedQuantityCount;
+    }
+//TODO: Add Getter and Setters
 }

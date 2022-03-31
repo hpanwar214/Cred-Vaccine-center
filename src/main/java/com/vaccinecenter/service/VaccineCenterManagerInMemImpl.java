@@ -97,12 +97,43 @@ public class VaccineCenterManagerInMemImpl implements VaccineCenterManager {
 
     @Override
     public boolean bookVaccineSlot(String vaccineCenterId, VaccineType vaccineType, DoseType doseType) {
+        for(Map.Entry<String,VaccineCenter> vaccineCenterEntry : vaccineCenterMap.entrySet() ){
+            if(vaccineCenterEntry.getKey().equals(vaccineCenterId)){
+                List<VaccineAvailability> vaccineAvailabilityList = vaccineCenterEntry.getValue().getVaccineAvailabilities();
+                for(VaccineAvailability vaccineAvailability:vaccineAvailabilityList){
+                    if(vaccineAvailability.getVaccineType().equals(vaccineType)&&
+                    vaccineAvailability.getDoseType().equals(doseType)&&
+                    vaccineAvailability.getAvailableQuantityCount()>0){
+                        vaccineAvailability.setAvailableQuantityCount(
+                                vaccineAvailability.getAvailableQuantityCount()-1
+                        );;
+                        updateAvailability(vaccineCenterId,vaccineAvailability);
+                        return true;
+                    }
+
+                }
+            }
+        }
         return false;
     }
 
     @Override
     public SearchResponse search(VaccineType vaccineType, DoseType doseType) {
-        return null;
+        int totalCount = 0;
+        SearchResponse searchResponse = new SearchResponse(0, Collections.emptyList());
+        for(Map.Entry<String,VaccineCenter> vaccineCenterEntry : vaccineCenterMap.entrySet() ){
+            List<VaccineAvailability> vaccineAvailabilityList = vaccineCenterEntry.getValue().getVaccineAvailabilities();
+            for(VaccineAvailability vaccineAvailability:vaccineAvailabilityList){
+                if(vaccineAvailability.getVaccineType().equals(vaccineType)&&
+                        vaccineAvailability.getDoseType().equals(doseType)&&
+                        vaccineAvailability.getAvailableQuantityCount()>0){
+                    totalCount++;
+                    searchResponse.getResults().add(vaccineCenterEntry.getValue());
+            }
+            }
+        }
+        searchResponse.setTotalCount(totalCount);
+        return searchResponse;
     }
 
     @Override

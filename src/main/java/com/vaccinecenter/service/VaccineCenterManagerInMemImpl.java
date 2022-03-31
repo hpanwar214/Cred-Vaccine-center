@@ -42,7 +42,7 @@ public class VaccineCenterManagerInMemImpl implements VaccineCenterManager {
             for(VaccineAvailability vaccineAvailability1 : vaccineAvailabilities){
                 if(vaccineAvailability1.getDoseType().equals(vaccineAvailability.getDoseType())&&
                         vaccineAvailability1.getVaccineType().equals(vaccineAvailability.getVaccineType())){
-                    return false;
+                    updateAvailability(vaccineCenterId,vaccineAvailability);
                 }
             }
             vaccineAvailabilities.add(vaccineAvailability);
@@ -60,17 +60,17 @@ public class VaccineCenterManagerInMemImpl implements VaccineCenterManager {
         List<VaccineAvailability> vaccineAvailabilities = vaccineCenter.getVaccineAvailabilities();
         int index = 0;
         if(vaccineAvailabilities.isEmpty()){
-            vaccineCenter.setVaccineAvailabilities(Arrays.asList(vaccineAvailability));
+            return false;
         }else{
             for(VaccineAvailability vaccineAvailability1 : vaccineAvailabilities){
-                if(vaccineAvailability1.getDoseType().equals(vaccineAvailability.getDoseType())&&
-                        vaccineAvailability1.getVaccineType().equals(vaccineAvailability.getVaccineType())){
+                if(vaccineAvailability1.equals(vaccineAvailability)){
                     vaccineAvailabilities.set(index,vaccineAvailability);
-                    index++;
+                    return true;
                 }
+                index++;
             }
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -81,17 +81,17 @@ public class VaccineCenterManagerInMemImpl implements VaccineCenterManager {
         List<VaccineAvailability> vaccineAvailabilities = vaccineCenter.getVaccineAvailabilities();
         int index = 0;
         if(vaccineAvailabilities.isEmpty()){
-            return true;
+            return false;
         }
         for(VaccineAvailability vaccineAvailability1 : vaccineAvailabilities){
-            if(vaccineAvailability1.getDoseType().equals(vaccineAvailability.getDoseType())&&
-                    vaccineAvailability1.getVaccineType().equals(vaccineAvailability.getVaccineType())){
+            if(vaccineAvailability1.equals(vaccineAvailability)){
                 vaccineAvailabilities.remove(index);
-                index++;
+                return true;
             }
+            index++;
         }
 
-        return true;
+        return false;
 
     }
 

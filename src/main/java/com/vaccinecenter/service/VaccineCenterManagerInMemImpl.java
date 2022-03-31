@@ -14,9 +14,17 @@ public class VaccineCenterManagerInMemImpl implements VaccineCenterManager {
 
     @Override
     public boolean add(VaccineCenter vaccineCenter) {
-        return Objects.nonNull(
-                vaccineCenterMap.put(vaccineCenter.getId(),vaccineCenter))?
-                true:false;
+        int len = vaccineCenterMap.size();
+        vaccineCenterMap.put(vaccineCenter.getId(),vaccineCenter);
+        if(vaccineCenter.getId() == null)
+            return false;
+
+
+        if(len+1==vaccineCenterMap.size())
+            return true;
+        else
+            return false;
+
     }
 
     @Override
@@ -27,8 +35,16 @@ public class VaccineCenterManagerInMemImpl implements VaccineCenterManager {
 
         List<VaccineAvailability> vaccineAvailabilities = vaccineCenter.getVaccineAvailabilities();
         if(vaccineAvailabilities.isEmpty()){
-            vaccineCenter.setVaccineAvailabilities(Arrays.asList(vaccineAvailability));
+            List<VaccineAvailability> vaccineAvailabilities1 = new ArrayList<>();
+            vaccineAvailabilities1.add(vaccineAvailability);
+            vaccineCenter.setVaccineAvailabilities(vaccineAvailabilities1);
         }else{
+            for(VaccineAvailability vaccineAvailability1 : vaccineAvailabilities){
+                if(vaccineAvailability1.getDoseType().equals(vaccineAvailability.getDoseType())&&
+                        vaccineAvailability1.getVaccineType().equals(vaccineAvailability.getVaccineType())){
+                    return false;
+                }
+            }
             vaccineAvailabilities.add(vaccineAvailability);
             vaccineCenter.setVaccineAvailabilities(vaccineAvailabilities);
         }
